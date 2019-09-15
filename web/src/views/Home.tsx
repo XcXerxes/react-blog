@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Tabs from 'components/Tab'
 import Aside from 'components/Layout/Aside'
 import ArticleItem from 'components/ArticleItem'
+import InfiniteScroll from "react-infinite-scroll-component"
 
 const StyledBannerWrapper = styled.div`
   height: 500px;
@@ -43,7 +44,7 @@ const StyledTabs = styled.div`
     padding: 0 15px;
   }
 `
-const StyledPost = styled.div`
+const StyledPost = styled(InfiniteScroll)`
   display: flex;
   margin-top: 20px;
   flex-wrap: wrap;
@@ -75,6 +76,13 @@ const data = Array.from({ length: 12}).map((_item, index: number) => {
   }
 })
 const Home:React.FC = () => {
+  const [list, setlist] = useState(data)
+  function fetchMoreData () {
+    console.log('-----')
+    setTimeout(() => {
+      setlist(list => list.concat(data))
+    }, 4000)
+  }
   return (
     <>
       <StyledBannerWrapper>
@@ -86,9 +94,14 @@ const Home:React.FC = () => {
             <StyledTabs>
               <Tabs tabs={tabs} />
             </StyledTabs>
-            <StyledPost>
-              {data.map((item) => (
-                <ArticleItem key={item.id} {...item} />
+            <StyledPost
+              dataLength={list.length}
+              next={fetchMoreData}
+              hasMore={true}
+              loader={<h4>Loading...</h4>}
+            >
+              {list.map((item, index: number) => (
+                <ArticleItem key={index} {...item} />
               ))}
             </StyledPost>
           </StyledMain>

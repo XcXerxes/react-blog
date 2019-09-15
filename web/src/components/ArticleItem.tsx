@@ -1,11 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 import Col from './Layout/Col'
+import { Link } from 'react-router-dom'
 
-const StyledArticle = styled.article`
+const StyledArticle = styled(Link)`
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
+  transition: all .25s ease;
+  &:hover {
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+    transform: translateY(-2px);
+  }
   @media only screen and (max-width: 992px) {
     margin: 0 15px 20px;
     box-shadow: 0 1px 2px rgba(0,0,0,.1);
@@ -46,17 +52,19 @@ const StyledDesc = styled.p`
   line-clamp: 2;
   box-orient: vertical;
   word-wrap: break-word;
+  font-size: .8em;
 `
 export interface ArticleItemProps {
   title: string;
   desc: string;
   media: string;
+  style?: any;
 }
 
-const ArticleItem:React.FC<ArticleItemProps> = ({ title, desc, media }) => {
+const ArticleItem:React.FC<ArticleItemProps> = ({ title, desc, media, style }) => {
   return (
     <Col sm="12" md="6" lg="4" xlg="3" gutter={20}>
-      <StyledArticle>
+      <StyledArticle to="/" style={style}>
         <StyledMedia>
           <StyledImg src={media}  alt={title} />
         </StyledMedia>
