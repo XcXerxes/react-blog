@@ -28,10 +28,17 @@ const navs = [
 const StyledNav = styled.div`
   height: 100%;
   padding-left: 50px;
+  @media only screen and (max-width: 992px) {
+    padding-left: 0;
+    margin: 0;
+  }
 `
 const StyledUl = styled.ul`
   display: flex;
   height: 100%;
+  @media only screen and (max-width: 992px) {
+    flex-direction: column;
+  }
 `
 const StyledLi = styled.li`
   margin: 0 10px;
@@ -39,7 +46,7 @@ const StyledLi = styled.li`
   display: flex;
   align-items: center;
 `
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
   display: flex;
   height: 100%;
   align-items: center;
@@ -56,7 +63,7 @@ const XNav:React.FC = () => {
       <StyledUl>
         { navs.map((item: any) => (
           <StyledLi key={item.path}>
-            <StyledLink as={Link} href={item.path} >{item.name}</StyledLink>
+            <StyledLink to={item.path} >{item.name}</StyledLink>
           </StyledLi>
         ))}
       </StyledUl>

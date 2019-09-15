@@ -13,6 +13,10 @@ html, body {
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+ul, li {
+  list-style: none;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -27,7 +31,16 @@ code {
   width: 1190px;
   margin: auto;
 }
-
+@media only screen and (max-width: 992px) {
+  .grid {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 1600px) {
+  .grid {
+    width: 1490px;
+  }
+}
 a {
   text-decoration: none;
   color: #333;
