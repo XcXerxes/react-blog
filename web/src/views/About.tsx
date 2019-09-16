@@ -2,7 +2,9 @@ import React from 'react'
 
 const About = () => {
   return (
-    <p>about</p>
+    <div className="container">
+      <p>about</p>
+    </div>
   )
 }
 export default About

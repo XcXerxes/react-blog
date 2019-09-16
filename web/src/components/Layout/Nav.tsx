@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 const navs = [
   {
@@ -40,11 +40,14 @@ const StyledUl = styled.ul`
     flex-direction: column;
   }
 `
-const StyledLi = styled.li`
+const StyledLi = styled.li<{ active: boolean }>`
   margin: 0 10px;
   height: 100%;
   display: flex;
   align-items: center;
+  border-bottom: 2px solid transparent;
+  transition: all .25s ease;
+  ${({ active }: any) => active && 'border-bottom: 2px solid #6190e8'};
 `
 const StyledLink = styled(Link)`
   display: flex;
@@ -56,13 +59,15 @@ const StyledLink = styled(Link)`
     color: #6190e8;
   }
 `
-
-const XNav:React.FC = () => {
+export interface XNavProps {
+  location?: any;
+}
+const XNav:React.FC<XNavProps> = ({ location }) => {
   return (
     <StyledNav>
       <StyledUl>
         { navs.map((item: any) => (
-          <StyledLi key={item.path}>
+          <StyledLi key={item.path} active={item.path === location.pathname}>
             <StyledLink to={item.path} >{item.name}</StyledLink>
           </StyledLi>
         ))}
@@ -71,4 +76,4 @@ const XNav:React.FC = () => {
   )
 }
 
-export default XNav
+export default withRouter(XNav)

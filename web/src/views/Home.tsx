@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import Tabs from 'components/Tab'
 import Aside from 'components/Layout/Aside'
 import ArticleItem from 'components/ArticleItem'
-import InfiniteScroll from "react-infinite-scroll-component"
+import InfiniteScroll from 'react-infinite-scroll-component'
+import Loading from 'components/Loading'
 
 const StyledBannerWrapper = styled.div`
   height: 500px;
@@ -79,12 +80,12 @@ const Home:React.FC = () => {
   const [list, setlist] = useState(data)
   function fetchMoreData () {
     console.log('-----')
-    setTimeout(() => {
-      setlist(list => list.concat(data))
-    }, 4000)
+    // setTimeout(() => {
+    //   setlist(list.concat(data))
+    // }, 1500)
   }
   return (
-    <>
+    <div className="container">
       <StyledBannerWrapper>
         <StyledBannerImg src={require('../assets/images/banner.jpg')} alt="banner" />
       </StyledBannerWrapper>
@@ -98,7 +99,7 @@ const Home:React.FC = () => {
               dataLength={list.length}
               next={fetchMoreData}
               hasMore={true}
-              loader={<h4>Loading...</h4>}
+              loader={<Loading />}
             >
               {list.map((item, index: number) => (
                 <ArticleItem key={index} {...item} />
@@ -108,7 +109,7 @@ const Home:React.FC = () => {
           <Aside />
         </StyledContent>
       </div>
-    </>
+    </div>
   )
 }
 

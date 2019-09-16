@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyledApp } from './App.style'
 import XHeader from 'components/Layout/Header'
+import XFooter from 'components/Layout/Footer'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import About from 'views/About'
 import Home from 'views/Home'
@@ -11,10 +12,11 @@ const App: React.FC = () => {
     <StyledApp>
       <Router>
         <XHeader />
-          <Switch>
-            <TransitionRouter path="/" exact component={Home} />
-            <TransitionRouter path="/about" component={About} />
-          </Switch>
+        <Switch>
+          <TransitionRouter path="/" exact component={Home} />
+          <TransitionRouter path="/about" component={About} />
+        </Switch>
+        <XFooter />
       </Router>
     </StyledApp>
   )
