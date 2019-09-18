@@ -1,23 +1,23 @@
-import React from 'react';
-import { Link, withRouter } from 'react-router-dom'
-import { Breadcrumb } from 'antd';
-import {searchRouterLinkList} from 'router/util';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Breadcrumb } from 'antd'
+import {searchRouterLinkList} from 'router/util'
 
 interface BasicBreadType {
-};
-class BasicBread extends React.PureComponent <BasicBreadType> {
-  render () {
-    const c = searchRouterLinkList('');
-    return (
-      <Breadcrumb style={{ margin: '16px 0' }}>
-        {c.map(BreadcrumbItem)}
-      </Breadcrumb>
-    );
-  };
+  history?: any;
+}
+const BasicBread:React.FC<BasicBreadType> = ({ history }) => {
+  const { pathname } = history.location
+  const c = searchRouterLinkList( pathname )
+  return (
+    <Breadcrumb style={{ margin: '16px 0' }}>
+      {c.map(BreadcrumbItem)}
+    </Breadcrumb>
+  )
 }
 
 interface BreadcrumbItem {
-  name: string;
+  name: string
   path?: string
 }
 

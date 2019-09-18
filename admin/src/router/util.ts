@@ -3,7 +3,7 @@
  * @Author: leo
  * @Date: 2019-09-16 20:53:45
  * @LastEditors: leo
- * @LastEditTime: 2019-09-16 20:55:18
+ * @LastEditTime: 2019-09-17 13:26:00
  */
 import RouterConfig from "./routerConfig";
 export interface iRoute {
@@ -78,5 +78,14 @@ export const matchMenuPath = (path: string) => {
       pathArray.pop();
     }
   } while (pathArray.length >= 1);
-  return '/dashboard';
+  return '/article/list'
+}
+
+/**
+ * 查找当前路由的根匹配菜单
+ * @param path 
+ */
+export const matchOpenPath = (path: string) => {
+  if (!path || path === '/') return '/article'
+  return '/' + path.split('/')[1]
 }

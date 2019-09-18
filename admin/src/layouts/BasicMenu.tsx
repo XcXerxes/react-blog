@@ -1,49 +1,49 @@
 import React from 'react'
-import {matchMenuPath} from 'router/util'
+import { iRoute } from '@interface/router.interface'
+import {matchMenuPath, matchOpenPath} from 'router/util'
 import RouterConfig from 'router/routerConfig'
 import { Menu, Icon } from 'antd'
 const {SubMenu, ItemGroup} = Menu
 
-const initialState = { defaultSelectedKeys: '/'}
-type State = Readonly<typeof initialState>
-
-interface PropsType {
-  title?: string,
+interface BasicMenuProps {
+  title?: string;
+  history?: any;
 }
-
-class BasicMenu extends React.Component <PropsType, State> {
-  readonly state: State = initialState
-  componentWillMount () {
-    // const {pathname} = this.injected.routerStore.history.location
-    this.setState({
-      defaultSelectedKeys: matchMenuPath('')
-    })
+const BasicMenu:React.FC<BasicMenuProps> = ({ history }) => {
+  const { pathname } = history.location
+  const defaultSelectedKeys = matchMenuPath(pathname)
+  const defaultOpenKeys = matchOpenPath(pathname)
+  console.log(defaultOpenKeys)
+  // 切换菜单
+  function handleMenu (e: any) {
+    history.push(e.key)
   }
-
-  render () {
-    return (
-      <Menu
-        defaultSelectedKeys={[this.state.defaultSelectedKeys]}
-        mode="inline"
-        style={{ height: '100%', borderRight: 0 }}
-      >
-        {
-          RouterConfig.map(MenuSub)
-        }
-      </Menu>
-    )
-  }
+  return (
+    <Menu
+      defaultSelectedKeys={[defaultSelectedKeys]}
+      defaultOpenKeys={[defaultOpenKeys]}
+      mode="inline"
+      theme="dark"
+      style={{ height: '100%', borderRight: 0 }}
+      onClick={handleMenu}
+    >
+      {
+        RouterConfig.map(MenuSub)
+      }
+    </Menu>
+  )
 }
 
 type SubPropsType = {
-  routes?: any
+  routes?: iRoute[],
   name: string,
   path?: string,
-  icon?: string | any
+  icon?: string
 }
 
 const MenuSub: React.FC<SubPropsType> = ({routes, name, path, icon}) => {
   if (path && routes && routes.length > 0) {
+    console.log('-------subMenu', path)
     return (
     <SubMenu key={path} title={<TitleRender {...{name, icon}} />}>
         {routes.map(MenuSub)}

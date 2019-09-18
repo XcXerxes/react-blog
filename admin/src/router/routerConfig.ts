@@ -3,12 +3,13 @@
  * @Author: leo
  * @Date: 2019-09-16 20:37:18
  * @LastEditors: leo
- * @LastEditTime: 2019-09-16 20:44:10
+ * @LastEditTime: 2019-09-17 12:34:13
  */
 import loadable from 'utils/loadable'
+import { ArticleRoutes } from './article'
 
 // 管理控制台
-const Article = loadable(() => import('views/article/Article'))
+const Article = loadable(() => import('views/article/route'))
 
 const RouterConfig: any = [
   {
@@ -16,7 +17,7 @@ const RouterConfig: any = [
     path: '/article',
     component: Article,
     icon: 'control',
-    routes: []
+    routes: [...ArticleRoutes]
   }
 ]
 export default RouterConfig

@@ -9,15 +9,9 @@ const columns = [
     align: 'center' as 'center'
   },
   {
-    title: '描述',
-    dataIndex: 'caption',
-    key: 'caption',
-    align: 'center' as 'center'
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createdAt',
-    key: 'createdAt',
+    title: '排序',
+    dataIndex: 'sort',
+    key: 'sort',
     align: 'center' as 'center'
   },
   {
@@ -38,25 +32,18 @@ const columns = [
 const data:any = Array.from({ length: 6 }).map((_item, index: number) => {
   return {
     id: index + 1,
-    title: `第一技术 ${index}`,
-    caption: `第一生产力 ${index}`,
+    title: `Web开发 ${index}`,
+    sort: `移动开发 ${index}`,
     createdAt: '2019-09-23'
   }
 })
 
-export interface ArticleProps {
-  history?: any;
-}
-const Article:React.FC<ArticleProps> = ({ history }) => {
+const Categroies:React.FC = () => {
   const [list, setlist] = useState([])
   // 分页配置
   const paginationOptions = {
     showQuickJumper: true,
     showTotal: (total: number) => `总条数 ${total}`
-  }
-  // 发布文章
-  function createArticle () {
-    history.push('/article/create')
   }
   useEffect(() => {
     setlist(data)
@@ -65,7 +52,7 @@ const Article:React.FC<ArticleProps> = ({ history }) => {
     <Content>
       <Form layout="inline">
         <Form.Item>
-          <Button type="primary" onClick={createArticle}>发布文章</Button>
+          <Button type="primary">创建分类</Button>
         </Form.Item>
       </Form>
       <Table
@@ -79,4 +66,4 @@ const Article:React.FC<ArticleProps> = ({ history }) => {
   )
 }
 
-export default Article
+export default Categroies
