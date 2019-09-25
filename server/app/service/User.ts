@@ -3,7 +3,7 @@
  * @Author: leo
  * @Date: 2019-09-16 16:26:42
  * @LastEditors: leo
- * @LastEditTime: 2019-09-16 19:31:58
+ * @LastEditTime: 2019-09-19 16:15:46
  */
 import { Service } from 'egg'
 import * as jwt from 'jsonwebtoken'
@@ -33,11 +33,11 @@ export default class User extends Service {
   }
   // 解析token
   public async decodeToken (token: string) {
-    const { ctx } = this
+    const { app } = this
     const arr = token.split(' ')
     if (arr[0] === 'Bearer') {
-      return jwt.verify(arr[1], ctx.config.JWT_SECRET)
+      return jwt.verify(arr[1], app.config.JWT_SECRET)
     }
-    throw new Error('Token not valid')
+    return null
   }
 }

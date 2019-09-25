@@ -7,7 +7,9 @@ const StyledArticle = styled(Link)`
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
+  position: relative;
   transition: all .25s ease;
+  overflow: hidden;
   &:hover {
     box-shadow: 0 1px 2px rgba(0,0,0,.1);
     transform: translateY(-2px);
@@ -15,6 +17,21 @@ const StyledArticle = styled(Link)`
   @media only screen and (max-width: 992px) {
     margin: 0 15px 20px;
     box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  }
+`
+const StyledLight = styled.i`
+  cursor: pointer;
+  position: absolute;
+  left: -110%;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: -webkit-linear-gradient(0deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.5),hsla(0,0%,100%,0));
+  transform: skewx(-25deg);
+
+  ${StyledArticle}:hover & {
+    transition: all .4s ease;
+    left: 100%
   }
 `
 const StyledMedia = styled.div`
@@ -72,6 +89,7 @@ const ArticleItem:React.FC<ArticleItemProps> = ({ title, desc, media, style }) =
           <StyledTitle>{title}</StyledTitle>
           <StyledDesc>{desc}</StyledDesc>
         </StyledFooter>
+        <StyledLight />
       </StyledArticle>
     </Col>
   )

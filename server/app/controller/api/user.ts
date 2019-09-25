@@ -3,7 +3,7 @@
  * @Author: leo
  * @Date: 2019-09-16 14:43:45
  * @LastEditors: leo
- * @LastEditTime: 2019-09-16 19:33:33
+ * @LastEditTime: 2019-09-19 16:12:53
  */
 import { Controller } from 'egg'
 
@@ -29,6 +29,15 @@ export default class User extends Controller {
         }
       }
       return ctx.body = this.app.success(result.createToken(), '登录成功')
+    } catch (error) {
+      throw new Error(error.toString())
+    }
+  }
+  public async list () {
+    try {
+      const { ctx } = this
+      const result = await ctx.model.User.find({}, 'username')
+      return ctx.body = this.app.success(result, '')
     } catch (error) {
       throw new Error(error.toString())
     }
