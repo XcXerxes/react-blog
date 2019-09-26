@@ -24,11 +24,21 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
-      sm: { span: 3 },
+      sm: { span: 2 },
     },
     wrapperCol: {
       xs: { span: 24 },
-      sm: { span: 8 },
+      sm: { span: 12 },
+    },
+  }
+  const contentItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 2 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 22 },
     },
   }
   const ButtonItemLayout = {
@@ -147,7 +157,7 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
   const previewImage:string = ''
   return (
     <Card loading={cardLoading}>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} {...formItemLayout}>
         <Form.Item label="文章名称" hasFeedback={true}>
           {getFieldDecorator('title', {
             initialValue: title,
@@ -207,7 +217,7 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
             </div>
           )}
         </Form.Item>
-        <Form.Item label="文章内容">
+        <Form.Item {...contentItemLayout} label="文章内容">
         {getFieldDecorator('content', {
             initialValue: content,
             rules: [

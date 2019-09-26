@@ -1,0 +1,14 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "start": "lerna run --scope admin --scope web start",
+    "dev": "lerna run --scope server dev",
+    "watch": "yarn start & yarn dev",
+    "build": "lerna run build -b packages/web packages/admin"
+  },
+  "devDependencies": {
+    "lerna": "^3.16.4"
+  }
+}

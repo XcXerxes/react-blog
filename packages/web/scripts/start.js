@@ -1,3 +1,10 @@
+/*
+ * @Description: 修改端口配置
+ * @Author: leo
+ * @Date: 2019-09-15 13:33:55
+ * @LastEditors: leo
+ * @LastEditTime: 2019-09-26 20:20:51
+ */
 'use strict';
 
 // Do this as the first thing so that any code reading it knows the right env.
@@ -41,7 +48,7 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 }
 
 // Tools like Cloud9 rely on this.
-const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
+const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 8080;
 const HOST = process.env.HOST || '0.0.0.0';
 
 if (process.env.HOST) {
