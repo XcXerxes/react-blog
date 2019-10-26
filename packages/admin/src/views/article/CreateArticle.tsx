@@ -1,7 +1,9 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect, useRef } from 'react'
+import React, { useState, ChangeEvent, FormEvent, useEffect, useRef, useCallback } from 'react'
 import { Card, Form, Input, Select, Upload, Icon, Button, Col, Modal } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import SimpleMDE from 'simplemde'
+import { useMappedState } from 'redux-react-hook'
+import api from 'api'
 
 export interface IAdverCreateProps extends FormComponentProps {
   test: string;
@@ -10,17 +12,27 @@ export interface IAdverCreateProps extends FormComponentProps {
 }
 
 const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
-  const [title, setTitle] = useState('')
-  const [caption, setCaption] = useState('')
+  // const [name, setname] = useState('')
+  // const [caption, setCaption] = useState('')
   const [cateId, setcateId] = useState(1)
-  const [url, setUrl] = useState('')
-  const [imgUrl, setImgUrl] = useState('')
+  // const [url, setUrl] = useState('')
+  const [thumbnail, setthumbnail] = useState('')
   const [loading, setLoading] = useState(false)
   const [cardLoading, setCardLoading] = useState(false)
   const [previewVisible, setPreviewVisible] = useState(false)
   const [fileList, setFileList] = useState<any>([])
-  const [content, setcontent] = useState('')
+  const [simplemd, setsimplemd] = useState<any>(null)
+  // const [content, setcontent] = useState('')
   const editorRef = useRef<any>()
+  const { categroy } = useMappedState(
+    useCallback(
+      (state: any) => ({
+        categroy: state.categroy
+      }),
+      []
+    )
+  )
+  console.log('----------=============', categroy)
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -48,7 +60,7 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
     }
   }
   useEffect(() => {
-    const simplemd = new SimpleMDE({ element: editorRef.current })
+    setsimplemd(new SimpleMDE({ element: editorRef.current }))
     const { location } = props
     if (location.search) {
       const id = location.search.split('=')[1]
@@ -75,19 +87,23 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
     e.preventDefault()
     props.form.validateFields(async(err, values) => {
       if (!err) {
+        debugger
+        console.log(simplemd.value)
         const { location } = props
         if (location.search) {
           const id = location.search.split('=')[1]
           updateAdver(id)
         } else {
-          createAdverItem()
+          createArticle(values)
         }
       }
     })
   }
-  async function createAdverItem () {
+  async function createArticle (params: any) {
     try {
       setLoading(true)
+      const result = await api.createArticle({...params, content: simplemd.value()})
+      debugger
     } catch (error) {
       setLoading(false)
       throw error
@@ -106,33 +122,20 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
     setcateId(value)
   }
   /**
-   * input输入值改变时
-   * @param value input的值
-   * @param type  input的类型
-   */
-  function handleChange (event: ChangeEvent<HTMLInputElement|HTMLTextAreaElement>, inputType: string):void {
-    const value = event.target.value
-    if (inputType === 'title') {
-      setTitle(value)
-    } else if (inputType === 'caption') {
-      setCaption(value)
-    } else if (inputType === 'url') {
-      setUrl(value)
-    }
-  }
-  /**
    * 上传图片
    * @param info 
    */
   const uploadHandleChange = (info:any) => {
+    debugger
     setFileList(info.fileList)
     if (info.file.status === 'uploading') {
       setLoading(true)
     }
     console.log('========================', info)
     if (info.file.status === 'done') {
+      debugger
       setLoading(false)
-      setImgUrl(info.file.name)
+      setthumbnail(info.file.name)
     }
   }
   /**
@@ -154,31 +157,39 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
       <div className="ant-upload-text">上传图片</div> 
     </div>
   )
-  const previewImage:string = ''
+  const previewImage:string = 'http://localhost:7001/public/' + thumbnail
   return (
     <Card loading={cardLoading}>
       <Form onSubmit={handleSubmit} {...formItemLayout}>
         <Form.Item label="文章名称" hasFeedback={true}>
-          {getFieldDecorator('title', {
-            initialValue: title,
+          {getFieldDecorator('name', {
             rules: [
               {
                 required: true,
-                message: '请输入名称!'
+                message: '请输入文章名称!'
               },
             ],
-          })(<Input placeholder="请输入名称" onChange={(e: ChangeEvent<HTMLInputElement>):void => handleChange(e, 'title')} />)}
+          })(<Input placeholder="请输入文章名称" />)}
         </Form.Item>
         <Form.Item label="文章描述" hasFeedback={true}>
           {getFieldDecorator('caption', {
-            initialValue: caption,
             rules: [
               {
                 required: true,
                 message: '请输入描述!'
               },
             ],
-          })(<Input.TextArea placeholder="请输入描述" rows={4} onChange={(e: ChangeEvent<HTMLTextAreaElement>):void => handleChange(e, 'caption')} />)}
+          })(<Input.TextArea placeholder="请输入描述" rows={4} />)}
+        </Form.Item>
+        <Form.Item label="作者名称" hasFeedback={true}>
+          {getFieldDecorator('author', {
+            rules: [
+              {
+                required: true,
+                message: '请输入作者名称!'
+              },
+            ],
+          })(<Input placeholder="请输入作者名称" />)}
         </Form.Item>
         <Form.Item label="文章分类" hasFeedback={true}>
           {getFieldDecorator('cateId', {
@@ -193,23 +204,20 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
             placeholder="请选择分类"
             onChange={handleSelectChange}
           >
-            <Select.Option value={1}>书架</Select.Option>
-            <Select.Option value={2}>排行榜</Select.Option>
-            <Select.Option value={3}>搜索</Select.Option>
-            <Select.Option value={4}>详情</Select.Option>
-            <Select.Option value={5}>主内容</Select.Option>
+            {categroy.cateList.map((item: any) => (
+              <Select.Option key={item._id} value={item.sortNum}>{item.name}</Select.Option>
+            ))}
           </Select>)}
         </Form.Item>
         <Form.Item label="缩略图">
-          {getFieldDecorator('imgUrl', {
-            initialValue: imgUrl
+          {getFieldDecorator('thumbnail', {
           })(
             <div className="clearfix">
-              <Upload name="logo" action={`/upload`} listType="picture-card" onChange={uploadHandleChange}
+              <Upload name="logo" action={`/api/upload`} listType="picture-card" onChange={uploadHandleChange}
                 fileList={fileList}
                 onPreview={handlePreview}
               >
-                { imgUrl ? null : uploadButton }
+                { thumbnail ? null : uploadButton }
               </Upload>
               <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
                 <img alt="example" style={{ width: '100%' }} src={previewImage} />
@@ -219,10 +227,9 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
         </Form.Item>
         <Form.Item {...contentItemLayout} label="文章内容">
         {getFieldDecorator('content', {
-            initialValue: content,
             rules: [
               {
-                required: true,
+                required: false,
                 message: '请输入名称!'
               },
             ],
@@ -241,4 +248,4 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
   )
 }
 const WrapperAdverCreateForm = Form.create({name: 'adverCreate'})(AdverCreate)
-export default WrapperAdverCreateForm
+export default (WrapperAdverCreateForm)

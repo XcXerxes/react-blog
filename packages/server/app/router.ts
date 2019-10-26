@@ -14,7 +14,7 @@ export default (app: Application) => {
   const authrozated = app.middleware.authToken()
 
   const { controller, router } = app;
-  const { user, category } = controller.api
+  const { user, category, article, upload } = controller.api
 
   router.get('/', controller.home.index);
   apiRouter.post('/user/signin', user.signin)
@@ -26,4 +26,11 @@ export default (app: Application) => {
   apiRouter.get('/category/:id', category.getOne)
   apiRouter.post('/category/update', category.updateOne)
   apiRouter.get('/category/delete/:id', category.deleteOne)
+
+  // 文章
+  apiRouter.get('/article/list', article.list)
+  apiRouter.post('/article/create', article.create)
+
+  // 上传图片
+  apiRouter.post('/upload', upload.upload)
 };

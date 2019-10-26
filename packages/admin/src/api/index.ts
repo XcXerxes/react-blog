@@ -10,7 +10,7 @@ import Request from './Request'
 export default {
   // 登录接口
   signin (params: any) {
-    return Request.post(params, '/auth/signin')
+    return Request.post(params, '/user/signin')
   },
   // 创建分类
   createCate (params: any) {
@@ -31,5 +31,21 @@ export default {
   // 删除分类
   deleteCateById (params: any) {
     return Request.get({}, `/category/delete/${params.id}`)
+  },
+  // 创建文章
+  createArticle (params: any) {
+    return Request.post(params, '/article/create')
+  },
+  // 文章列表
+  articleList (params: any) {
+    return Request.get(params, '/article/list')
+  },
+  // 文章单条
+  articleItemById (params: any) {
+    return Request.get({}, `/article/${params.id}`)
+  },
+  // 删除文章
+  deleteArticleById (params: any) {
+    return Request.get({}, `/article/delete/${params.id}`)
   }
 }

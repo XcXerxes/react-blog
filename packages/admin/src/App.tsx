@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import BasicLayout from 'layouts/BasicLayout'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import loadable from 'utils/loadable'
 import AuthorizationRoute from 'components/AuthorizationRoute'
+import { useDispatch } from 'redux-react-hook'
+import { fetchCateList } from 'redux/actions/categroy'
 
-const App: React.FC = () => {
+interface AppProps {
+}
+const App: React.FC<AppProps> = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchCateList())
+  }, [dispatch])
   return (
     <Router>
       <Switch>
