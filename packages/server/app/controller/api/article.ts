@@ -3,7 +3,7 @@
  * @Author: leo
  * @Date: 2019-09-25 23:04:00
  * @LastEditors: leo
- * @LastEditTime: 2019-09-25 23:09:17
+ * @LastEditTime: 2019-10-27 17:06:48
  */
 import { Controller } from 'egg'
 
@@ -14,9 +14,9 @@ export default class Article extends Controller {
   async create () {
     try {
       const { ctx } = this
-      const { name, author, caption, thumbnail, content } = ctx.request.body
-      if (!name || !author || !caption || !thumbnail || !content) {
-        throw new Error('name and author and caption and thumbnail and content requied!')
+      const { name, author, caption, thumbnail, content, cateId } = ctx.request.body
+      if (!name || !author || !caption || !thumbnail || !content || !cateId) {
+        throw new Error('name and author and caption and cateId and thumbnail and content requied!')
       }
       const result = await ctx.model.Article.create({ name, author, caption, thumbnail, content })
       if (result) {

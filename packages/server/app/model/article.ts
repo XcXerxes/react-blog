@@ -3,7 +3,7 @@
  * @Author: leo
  * @Date: 2019-09-16 14:27:38
  * @LastEditors: leo
- * @LastEditTime: 2019-09-25 23:12:53
+ * @LastEditTime: 2019-10-27 16:20:33
  */
 import { Application } from 'egg'
 export default (app: Application) => {
@@ -14,6 +14,7 @@ export default (app: Application) => {
     author: { type: String },
     caption: { type: String },
     thumbnail: { type: String },
+    cateId: { type: Number },
     content: { type: String },
     visit: { type: Number, default: 0 },
     like: { type: Number, default: 0 }

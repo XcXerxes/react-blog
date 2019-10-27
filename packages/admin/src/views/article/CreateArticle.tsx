@@ -1,8 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect, useRef, useCallback } from 'react'
-import { Card, Form, Input, Select, Upload, Icon, Button, Col, Modal } from 'antd'
+import { Card, Form, Input, Select, Upload, Icon, Button, Col, Modal, message } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import SimpleMDE from 'simplemde'
 import { useMappedState } from 'redux-react-hook'
+import { iSuccessResult } from '@interface/global.interface'
 import api from 'api'
 
 export interface IAdverCreateProps extends FormComponentProps {
@@ -12,8 +13,9 @@ export interface IAdverCreateProps extends FormComponentProps {
 }
 
 const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
-  // const [name, setname] = useState('')
-  // const [caption, setCaption] = useState('')
+  const [name, setname] = useState('')
+  const [caption, setcaption] = useState('')
+  const [author, setauthor] = useState('')
   const [cateId, setcateId] = useState(1)
   // const [url, setUrl] = useState('')
   const [thumbnail, setthumbnail] = useState('')
@@ -60,20 +62,37 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
     }
   }
   useEffect(() => {
-    setsimplemd(new SimpleMDE({ element: editorRef.current }))
+    debugger
+    let currentSimplemd:any = new SimpleMDE({ element: editorRef.current })
     const { location } = props
     if (location.search) {
       const id = location.search.split('=')[1]
-      getInfo(id)
+      getInfo(id, currentSimplemd)
+    } else {
+      setsimplemd(currentSimplemd)
     }
   }, [])
   /**
    * 获取单个的信息
    * @param id
    */
-  async function getInfo (id: string) {
+  async function getInfo (id: string, currentSimplemd: any) {
     try {
       setCardLoading(true)
+      const result: iSuccessResult = await api.articleItemById({ id })
+      setCardLoading(false)
+      if (result.code === 200) {
+        const { data } = result
+        setname(data.name)
+        setcaption(data.caption)
+        setauthor(data.author)
+        setcateId(data.cateId)
+        setthumbnail(data.thumbnail)
+        setsimplemd(currentSimplemd)
+        currentSimplemd.value(data.content)
+      } else {
+        message.error(result.message || '获取失败')
+      }
     } catch (error) {
       setCardLoading(false)
       throw error
@@ -87,8 +106,6 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
     e.preventDefault()
     props.form.validateFields(async(err, values) => {
       if (!err) {
-        debugger
-        console.log(simplemd.value)
         const { location } = props
         if (location.search) {
           const id = location.search.split('=')[1]
@@ -102,10 +119,17 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
   async function createArticle (params: any) {
     try {
       setLoading(true)
-      const result = await api.createArticle({...params, content: simplemd.value()})
-      debugger
+      const result:iSuccessResult = await api.createArticle({...params, content: simplemd.value()})
+      setLoading(false)
+      if (result.code === 200) {
+        message.success(result.message || '创建成功')
+        props.history.push('/article/list')
+      } else {
+        message.error(result.message || '创建失败')
+      }
     } catch (error) {
       setLoading(false)
+      message.error(error.toString())
       throw error
     }
   }
@@ -159,10 +183,11 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
   )
   const previewImage:string = 'http://localhost:7001/public/' + thumbnail
   return (
-    <Card loading={cardLoading}>
+    <Card>
       <Form onSubmit={handleSubmit} {...formItemLayout}>
         <Form.Item label="文章名称" hasFeedback={true}>
           {getFieldDecorator('name', {
+            initialValue: name,
             rules: [
               {
                 required: true,
@@ -173,6 +198,7 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
         </Form.Item>
         <Form.Item label="文章描述" hasFeedback={true}>
           {getFieldDecorator('caption', {
+            initialValue: caption,
             rules: [
               {
                 required: true,
@@ -183,6 +209,7 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
         </Form.Item>
         <Form.Item label="作者名称" hasFeedback={true}>
           {getFieldDecorator('author', {
+            initialValue: author,
             rules: [
               {
                 required: true,
@@ -211,6 +238,7 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
         </Form.Item>
         <Form.Item label="缩略图">
           {getFieldDecorator('thumbnail', {
+            initialValue: thumbnail
           })(
             <div className="clearfix">
               <Upload name="logo" action={`/api/upload`} listType="picture-card" onChange={uploadHandleChange}
