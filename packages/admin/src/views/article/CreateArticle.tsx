@@ -17,7 +17,6 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
   const [caption, setcaption] = useState('')
   const [author, setauthor] = useState('')
   const [cateId, setcateId] = useState(1)
-  // const [url, setUrl] = useState('')
   const [thumbnail, setthumbnail] = useState('')
   const [loading, setLoading] = useState(false)
   const [cardLoading, setCardLoading] = useState(false)
@@ -150,14 +149,12 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
    * @param info 
    */
   const uploadHandleChange = (info:any) => {
-    debugger
     setFileList(info.fileList)
     if (info.file.status === 'uploading') {
       setLoading(true)
     }
     console.log('========================', info)
     if (info.file.status === 'done') {
-      debugger
       setLoading(false)
       setthumbnail(info.file.name)
     }

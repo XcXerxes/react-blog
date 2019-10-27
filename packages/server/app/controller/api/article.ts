@@ -18,7 +18,7 @@ export default class Article extends Controller {
       if (!name || !author || !caption || !thumbnail || !content || !cateId) {
         throw new Error('name and author and caption and cateId and thumbnail and content requied!')
       }
-      const result = await ctx.model.Article.create({ name, author, caption, thumbnail, content })
+      const result = await ctx.model.Article.create({ name, author, caption, thumbnail, content, cateId })
       if (result) {
         return ctx.body = this.app.success('', '创建成功')
       }

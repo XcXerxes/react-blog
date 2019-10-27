@@ -15,6 +15,7 @@
     "@types/styled-components": "^4.1.19",
     "@typescript-eslint/eslint-plugin": "1.13.0",
     "@typescript-eslint/parser": "1.13.0",
+    "axios": "^0.19.0",
     "babel-eslint": "10.0.2",
     "babel-jest": "^24.8.0",
     "babel-loader": "8.0.6",
@@ -145,5 +146,6 @@
     "presets": [
       "react-app"
     ]
-  }
+  },
+  "proxy": "http://localhost:7001"
 }

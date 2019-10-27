@@ -39,7 +39,7 @@ const Tabs:React.FC<TabsProps> = ({ tabs }) => {
     <StyledWrapper>
       <StyledUl>
         {tabs.map((item: any) => (
-          <StyledLi key={item.id}>{item.name}</StyledLi>
+          <StyledLi key={item._id}>{item.name}</StyledLi>
         ))}
       </StyledUl>
     </StyledWrapper>

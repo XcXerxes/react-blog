@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Tabs from 'components/Tab'
 import Aside from 'components/Layout/Aside'
 import ArticleItem from 'components/ArticleItem'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import Loading from 'components/Loading'
+import api from 'api'
+
 
 const StyledBannerWrapper = styled.div`
   height: 500px;
@@ -78,12 +80,26 @@ const data = Array.from({ length: 12}).map((_item, index: number) => {
 })
 const Home:React.FC = () => {
   const [list, setlist] = useState(data)
+  const [cateList, setcateList] = useState([])
   function fetchMoreData () {
     console.log('-----')
     // setTimeout(() => {
     //   setlist(list.concat(data))
     // }, 1500)
   }
+  async function fetchCate () {
+    try {
+      const result:any = await api.cateList({})
+      if (result.code === 200) {
+        setcateList(result.data)
+      }
+    } catch (error) {
+      
+    }
+  }
+  useEffect(() => {
+    fetchCate()
+  }, [])
   return (
     <div className="container">
       <StyledBannerWrapper>
@@ -93,7 +109,7 @@ const Home:React.FC = () => {
         <StyledContent>
           <StyledMain>
             <StyledTabs>
-              <Tabs tabs={tabs} />
+              <Tabs tabs={cateList} />
             </StyledTabs>
             <StyledPost
               dataLength={list.length}
