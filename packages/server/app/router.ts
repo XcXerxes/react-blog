@@ -32,6 +32,7 @@ export default (app: Application) => {
   apiRouter.post('/article/create', article.create)
   apiRouter.get('/article/delete/:id', article.deleteOne)
   apiRouter.get('/article/:id', article.one)
+  apiRouter.get('/articleDetail/:id', article.oneDetail)
 
   // 上传图片
   apiRouter.post('/upload', upload.upload)

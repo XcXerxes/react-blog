@@ -5,6 +5,7 @@ import XFooter from 'components/Layout/Footer'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import About from 'views/About'
 import Home from 'views/Home'
+import Article from 'views/Article'
 import TransitionRouter from 'components/TransitionRouter'
 
 const App: React.FC = () => {
@@ -15,6 +16,7 @@ const App: React.FC = () => {
         <Switch>
           <TransitionRouter path="/" exact component={Home} />
           <TransitionRouter path="/about" component={About} />
+          <TransitionRouter path="/article/:id" component={Article} />
         </Switch>
         <XFooter />
       </Router>

@@ -44,6 +44,10 @@ export default {
   articleItemById (params: any) {
     return Request.get({}, `/article/${params.id}`)
   },
+  // 文章单条详情
+  articleDetailById (params: any) {
+    return Request.get({}, `/articleDetail/${params.id}`)
+  },
   // 删除文章
   deleteArticleById (params: any) {
     return Request.get({}, `/article/delete/${params.id}`)

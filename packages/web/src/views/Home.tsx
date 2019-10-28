@@ -78,10 +78,15 @@ const data = Array.from({ length: 12}).map((_item, index: number) => {
     media: 'https://img13.360buyimg.com/ling/jfs/t1/44465/15/9966/106511/5d7483fcEcb019de5/3050c6744e25cf56.png'
   }
 })
-const Home:React.FC = () => {
+interface HomePorps {
+  history?: any;
+}
+const Home:React.FC<HomePorps> = () => {
   const [list, setlist] = useState(data)
+  const [page, setpage] = useState(1)
   const [cateList, setcateList] = useState([])
   function fetchMoreData () {
+    setpage(page => page + 1)
     console.log('-----')
     // setTimeout(() => {
     //   setlist(list.concat(data))
@@ -97,9 +102,22 @@ const Home:React.FC = () => {
       
     }
   }
+  async function fetchArticleList () {
+    try {
+      const result:any = await api.articleList({ rows: 9, page})
+      if (result.code === 200) {
+        setlist(result.data.list)
+      }
+    } catch (error) {
+      
+    }
+  }
   useEffect(() => {
     fetchCate()
   }, [])
+  useEffect(() => {
+    fetchArticleList()
+  }, [page])
   return (
     <div className="container">
       <StyledBannerWrapper>
@@ -114,11 +132,11 @@ const Home:React.FC = () => {
             <StyledPost
               dataLength={list.length}
               next={fetchMoreData}
-              hasMore={true}
+              hasMore={false}
               loader={<Loading />}
             >
-              {list.map((item, index: number) => (
-                <ArticleItem key={index} {...item} />
+              {list.map((item:any, index: number) => (
+                <ArticleItem key={item._id} {...item} />
               ))}
             </StyledPost>
           </StyledMain>

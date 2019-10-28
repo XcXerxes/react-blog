@@ -47,6 +47,21 @@ export default class Article extends Controller {
       if (!id) {
         throw new Error('id is required!')
       }
+      const result = await ctx.model.Article.findById(id, '-content')
+      if (result) {
+        return ctx.body = this.app.success(result, '获取成功')
+      }
+    } catch (error) {
+      throw new Error(error.toString())
+    }
+  }
+  async oneDetail () {
+    try {
+      const { ctx } = this
+      const { id } = ctx.params
+      if (!id) {
+        throw new Error('id is required!')
+      }
       const result = await ctx.model.Article.findById(id)
       if (result) {
         return ctx.body = this.app.success(result, '获取成功')

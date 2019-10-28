@@ -72,22 +72,23 @@ const StyledDesc = styled.p`
   font-size: .8em;
 `
 export interface ArticleItemProps {
-  title: string;
-  desc: string;
-  media: string;
+  name: string;
+  caption: string;
+  media?: string;
   style?: any;
+  _id: string;
 }
 
-const ArticleItem:React.FC<ArticleItemProps> = ({ title, desc, media, style }) => {
+const ArticleItem:React.FC<ArticleItemProps> = ({_id, name, caption, media, style }) => {
   return (
     <Col sm="12" md="6" lg="4" xlg="3" gutter={20}>
-      <StyledArticle to="/" style={style}>
+      <StyledArticle to={`/article/${_id}`} style={style}>
         <StyledMedia>
-          <StyledImg src={media}  alt={title} />
+          <StyledImg src={media}  alt={name} />
         </StyledMedia>
         <StyledFooter>
-          <StyledTitle>{title}</StyledTitle>
-          <StyledDesc>{desc}</StyledDesc>
+          <StyledTitle>{name}</StyledTitle>
+          <StyledDesc>{caption}</StyledDesc>
         </StyledFooter>
         <StyledLight />
       </StyledArticle>
