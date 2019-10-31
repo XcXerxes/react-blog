@@ -2,16 +2,14 @@ import React, {useState, useEffect} from 'react'
 // import styled from 'styled-components'
 import marked from 'marked'
 import api from 'api'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github.css'
 
 marked.setOptions({ // marked 设置
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: true,
-  pedantic: false,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false
+  highlight: function(code, lang:any) {
+    return hljs.highlightAuto(code).value
+  },
+  renderer: new marked.Renderer()
 })
 
 interface ArticleProps {

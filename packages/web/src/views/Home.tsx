@@ -52,37 +52,11 @@ const StyledPost = styled(InfiniteScroll)`
   margin-top: 20px;
   flex-wrap: wrap;
 `
-const tabs = [
-  {
-    id: 1,
-    name: '全部文章'
-  },
-  {
-    id: 2,
-    name: 'Web开发'
-  },
-  {
-    id: 3,
-    name: '移动开发'
-  },
-  {
-    id: 4,
-    name: 'H5游戏开发'
-  }
-]
-const data = Array.from({ length: 12}).map((_item, index: number) => {
-  return {
-    id: index + 1,
-    title: '从程序员角度去看项目管理',
-    desc: '“没时间了，这个需求放在二期吧”，“亲，这是老板的需求”',
-    media: 'https://img13.360buyimg.com/ling/jfs/t1/44465/15/9966/106511/5d7483fcEcb019de5/3050c6744e25cf56.png'
-  }
-})
 interface HomePorps {
   history?: any;
 }
 const Home:React.FC<HomePorps> = () => {
-  const [list, setlist] = useState(data)
+  const [list, setlist] = useState([])
   const [page, setpage] = useState(1)
   const [cateList, setcateList] = useState([])
   function fetchMoreData () {
@@ -136,7 +110,7 @@ const Home:React.FC<HomePorps> = () => {
               loader={<Loading />}
             >
               {list.map((item:any, index: number) => (
-                <ArticleItem key={item._id} {...item} />
+                <ArticleItem {...item} key={item._id} />
               ))}
             </StyledPost>
           </StyledMain>

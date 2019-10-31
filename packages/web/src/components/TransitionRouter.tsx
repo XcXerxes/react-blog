@@ -1,6 +1,7 @@
-import React, { useEffect, Component } from 'react'
+import React, { useEffect, Component, Suspense } from 'react'
 import Nprogress from 'nprogress'
 import { Route } from 'react-router-dom'
+import Sketon from 'components/Sketon' 
 
 export interface TransitionRouterProps {
   component: any;
@@ -15,7 +16,7 @@ const TransitionRouter:React.FC<TransitionRouterProps> = ({ component, ...rest }
     Nprogress.done()
   })
   return (
-    <Route {...rest} render={(routeProps: any) => <NComponent {...routeProps} />} />
+    <Route {...rest} render={(routeProps: any) => <Suspense fallback={<Sketon />}><NComponent {...routeProps} /></Suspense>} />
   )
 }
 

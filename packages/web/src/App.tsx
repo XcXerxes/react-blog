@@ -1,11 +1,8 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { StyledApp } from './App.style'
 import XHeader from 'components/Layout/Header'
 import XFooter from 'components/Layout/Footer'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
-import About from 'views/About'
-import Home from 'views/Home'
-import Article from 'views/Article'
 import TransitionRouter from 'components/TransitionRouter'
 
 const App: React.FC = () => {
@@ -14,9 +11,9 @@ const App: React.FC = () => {
       <Router>
         <XHeader />
         <Switch>
-          <TransitionRouter path="/" exact component={Home} />
-          <TransitionRouter path="/about" component={About} />
-          <TransitionRouter path="/article/:id" component={Article} />
+          <TransitionRouter path="/" exact component={lazy(() => import('views/Home'))} />
+          <TransitionRouter path="/about" component={lazy(() => import('views/About'))} />
+          <TransitionRouter path="/article/:id" component={lazy(() => import('views/Article'))} />
         </Switch>
         <XFooter />
       </Router>

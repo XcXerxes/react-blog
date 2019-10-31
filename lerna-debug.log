@@ -1,12 +1,10 @@
 0 silly argv { _: [ 'add' ],
-0 silly argv   D: true,
-0 silly argv   dev: true,
-0 silly argv   scope: 'admin',
+0 silly argv   scope: 'web',
 0 silly argv   globs: [],
 0 silly argv   lernaVersion: '3.16.4',
 0 silly argv   '$0': 'lerna',
-0 silly argv   pkg: '@types/dayjs' }
+0 silly argv   pkg: 'node-pygmentize-bundled' }
 1 notice cli v3.16.4
-2 verbose rootPath /Users/zhangjie/xinbo/myself/react/react-blog
-3 error Error: 404 Not Found - GET https://registry.npmjs.org/@types%2fdayjs - Not found
-3 error     at res.buffer.catch.then.body (/Users/zhangjie/xinbo/myself/react/react-blog/node_modules/@evocateur/npm-registry-fetch/check-response.js:104:15)
+2 verbose rootPath /Users/xiacan/Documents/web/react-app/react-blog
+3 error Error: 404 Not Found - GET https://registry.npmjs.org/node-pygmentize-bundled - Not found
+3 error     at res.buffer.catch.then.body (/Users/xiacan/.nvm/versions/node/v10.13.0/lib/node_modules/lerna/node_modules/@evocateur/npm-registry-fetch/check-response.js:104:15)
