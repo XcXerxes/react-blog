@@ -74,17 +74,17 @@ const StyledDesc = styled.p`
 export interface ArticleItemProps {
   name: string;
   caption: string;
-  media?: string;
+  thumbnail: string;
   style?: any;
   _id: string;
 }
 
-const ArticleItem:React.FC<ArticleItemProps> = ({_id, name, caption, media, style }) => {
+const ArticleItem:React.FC<ArticleItemProps> = ({_id, name, caption, thumbnail, style }) => {
   return (
     <Col sm="12" md="6" lg="4" xlg="3" gutter={20}>
       <StyledArticle to={`/article/${_id}`} style={style}>
         <StyledMedia>
-          <StyledImg src={media}  alt={name} />
+          <StyledImg src={`http://localhost:7001/public/${thumbnail}`}  alt={name} />
         </StyledMedia>
         <StyledFooter>
           <StyledTitle>{name}</StyledTitle>

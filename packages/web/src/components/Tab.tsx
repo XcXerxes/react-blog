@@ -29,17 +29,22 @@ const StyledLi = styled.li`
   &:hover {
     color: #6190e8;
   }
+  &.active {
+    background-color: #6190e8;
+    color: #fff;
+  }
 `
 export interface TabsProps {
   tabs: Array<any>;
+  activeIndex: number;
 }
 
-const Tabs:React.FC<TabsProps> = ({ tabs }) => {
+const Tabs:React.FC<TabsProps> = ({ tabs, activeIndex }) => {
   return (
     <StyledWrapper>
       <StyledUl>
-        {tabs.map((item: any) => (
-          <StyledLi key={item._id}>{item.name}</StyledLi>
+        {tabs.map((item: any, index: number) => (
+          <StyledLi className={ activeIndex === index ? 'active' : '' } key={item._id}>{item.name}</StyledLi>
         ))}
       </StyledUl>
     </StyledWrapper>

@@ -1,3 +1,10 @@
+/*
+ * @Description: 定义类型
+ * @Author: leo
+ * @Date: 2019-09-16 11:23:02
+ * @LastEditors: leo
+ * @LastEditTime: 2019-11-12 11:11:09
+ */
 /// <reference types="node" />
 /// <reference types="react" />
 /// <reference types="react-dom" />
@@ -64,3 +71,5 @@ declare module '*.module.sass' {
 }
 
 declare module 'react-height';
+declare module 'tui-editor';
+declare module 'tui-editor/dist/tui-editor-Viewer';

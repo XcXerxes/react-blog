@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect, useRef, useCallback } from 'react'
 import { Card, Form, Input, Select, Upload, Icon, Button, Col, Modal, message } from 'antd'
 import { FormComponentProps } from 'antd/lib/form/Form'
-import SimpleMDE from 'simplemde'
+import Editor from 'tui-editor'
 import { useMappedState } from 'redux-react-hook'
 import { iSuccessResult } from '@interface/global.interface'
 import api from 'api'
@@ -61,8 +61,12 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
     }
   }
   useEffect(() => {
-    debugger
-    let currentSimplemd:any = new SimpleMDE({ element: editorRef.current })
+    let currentSimplemd:any = new Editor({
+      el: editorRef.current,
+      initialEditType: 'markdown',
+      previewStyle: 'vertical',
+      height: '300px'
+    })
     const { location } = props
     if (location.search) {
       const id = location.search.split('=')[1]
@@ -118,7 +122,7 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
   async function createArticle (params: any) {
     try {
       setLoading(true)
-      const result:iSuccessResult = await api.createArticle({...params, content: simplemd.value()})
+      const result:iSuccessResult = await api.createArticle({...params, content: simplemd.getMarkdown(), thumbnail: thumbnail.replace(/.*\/$/, '')})
       setLoading(false)
       if (result.code === 200) {
         message.success(result.message || '创建成功')
@@ -156,7 +160,7 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
     console.log('========================', info)
     if (info.file.status === 'done') {
       setLoading(false)
-      setthumbnail(info.file.name)
+      setthumbnail(info.fileList[0].name)
     }
   }
   /**
@@ -258,7 +262,7 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
                 message: '请输入名称!'
               },
             ],
-          })(<textarea ref={editorRef} />)}
+          })(<div ref={editorRef} />)}
         </Form.Item>
         <Form.Item {...ButtonItemLayout}>
           <Col xs={24} sm={8}>
