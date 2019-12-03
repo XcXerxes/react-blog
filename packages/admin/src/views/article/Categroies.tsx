@@ -28,6 +28,12 @@ const Categroies:React.FC<CategroiesProps> = ({ form }) => {
       align: 'center' as 'center'
     },
     {
+      title: '标识id',
+      dataIndex: 'typeId',
+      key: 'typeId',
+      align: 'center' as 'center'
+    },
+    {
       title: '操作',
       dataIndex: 'actions',
       key: 'actions',
@@ -46,6 +52,7 @@ const Categroies:React.FC<CategroiesProps> = ({ form }) => {
   const [tableLoading, settableLoading] = useState(false)
   const [name, setname] = useState('')
   const [sort, setsort] = useState('')
+  const [typeId, settypeId] = useState('')
   const [id, setid] = useState('')
   // 判断是更新还是新增
   const [isAdd, setisAdd] = useState(true)
@@ -59,10 +66,11 @@ const Categroies:React.FC<CategroiesProps> = ({ form }) => {
     try {
       const result:iSuccessResult = await api.cateItemById({ id })
       if (result.code === 200) {
-        const { name, sortNum, _id } = result.data
+        const { name, sortNum, _id, typeId } = result.data
         setvisible(true)
         setname(name)
         setsort(sortNum)
+        settypeId(typeId)
         setid(_id)
         console.log('-----------false')
         setisAdd(false)
@@ -234,6 +242,17 @@ const Categroies:React.FC<CategroiesProps> = ({ form }) => {
                 },
               ],
             })(<Input placeholder="请输入名称" />)}
+          </Form.Item>
+          <Form.Item label="标识" hasFeedback>
+            {getFieldDecorator('typeId', {
+              initialValue: typeId,
+              rules: [
+                {
+                  required: true,
+                  message: '请输入标识id!'
+                },
+              ],
+            })(<Input placeholder="请输入标识" />)}
           </Form.Item>
           <Form.Item label="排序" hasFeedback>
             {getFieldDecorator('sort', {

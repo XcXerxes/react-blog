@@ -10,7 +10,7 @@ const StyledWrapper = styled.div`
 `
 const StyledUl = styled.ul`
   display: flex;
-  height: inherit;
+  height: 40px;
   align-items: center;
   white-space: nowrap;
   position: relative;
@@ -37,14 +37,18 @@ const StyledLi = styled.li`
 export interface TabsProps {
   tabs: Array<any>;
   activeIndex: number;
+  onClick: (item: any, index: number) => void;
 }
 
-const Tabs:React.FC<TabsProps> = ({ tabs, activeIndex }) => {
+const Tabs:React.FC<TabsProps> = ({ tabs, activeIndex, onClick }) => {
+  function tabItemClick (item: any, index: number) {
+    onClick(item, index)
+  }
   return (
     <StyledWrapper>
       <StyledUl>
         {tabs.map((item: any, index: number) => (
-          <StyledLi className={ activeIndex === index ? 'active' : '' } key={item._id}>{item.name}</StyledLi>
+          <StyledLi onClick={() => tabItemClick(item, index)} className={ activeIndex === index ? 'active' : '' } key={item._id}>{item.name}</StyledLi>
         ))}
       </StyledUl>
     </StyledWrapper>

@@ -233,7 +233,7 @@ const AdverCreate:React.FC<IAdverCreateProps> = (props) => {
             onChange={handleSelectChange}
           >
             {categroy.cateList.map((item: any) => (
-              <Select.Option key={item._id} value={item.sortNum}>{item.name}</Select.Option>
+              <Select.Option key={item._id} value={item.typeId}>{item.name}</Select.Option>
             ))}
           </Select>)}
         </Form.Item>

@@ -59,6 +59,7 @@ const Home:React.FC<HomePorps> = () => {
   const [list, setlist] = useState([])
   const [page, setpage] = useState(1)
   const [cateList, setcateList] = useState([])
+  const [activeIndex, setactiveIndex] = useState(0)
   function fetchMoreData () {
     setpage(page => page + 1)
     console.log('-----')
@@ -86,6 +87,12 @@ const Home:React.FC<HomePorps> = () => {
       
     }
   }
+  // tab 切换时
+  function tabItemClick (_item: any, index: number) {
+    if (index !== activeIndex) {
+      setactiveIndex(index)
+    }
+  }
   useEffect(() => {
     fetchCate()
   }, [])
@@ -101,7 +108,7 @@ const Home:React.FC<HomePorps> = () => {
         <StyledContent>
           <StyledMain>
             <StyledTabs>
-              <Tabs tabs={cateList} />
+              <Tabs tabs={cateList} activeIndex={activeIndex} onClick={tabItemClick} />
             </StyledTabs>
             <StyledPost
               dataLength={list.length}

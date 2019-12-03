@@ -14,9 +14,9 @@ export default class Category extends Controller {
   public async create () {
     try {
       const { ctx } = this
-      const { name, sort } = ctx.request.body
-      if (!name || !sort) throw new Error('name or sort is required!')
-      const result = await ctx.model.Category.create({ name, sortNum: sort})
+      const { name, sort, typeId } = ctx.request.body
+      if (!name || !sort || !typeId) throw new Error('name or sort is required!')
+      const result = await ctx.model.Category.create({ name, typeId, sortNum: sort})
       if (result) {
         return ctx.body = this.app.success('', '创建成功')
       }

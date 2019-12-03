@@ -11,10 +11,11 @@ export default (app: Application) => {
 
   const CategorySchema:any = new Schema({
     name: { type: String },
-    sortNum: { type: Number, unique: true }
+    typeId: { type: Number, default: 0, unique: true },
+    sortNum: { type: Number }
   }, {
     timestamps: true
   })
-
-  return app.mongoose.model('Category', CategorySchema)
+  const Category: any = app.mongoose.model('Category', CategorySchema)
+  return Category
 }
